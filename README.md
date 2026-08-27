@@ -39,23 +39,23 @@ The user fills out the form, clicks **Generate Map**, and the map is drawn insta
 
 ## Screenshots
 
-1. **Interactive Form Controls**: Standard form layout featuring 5 fields on the first row (Water %, Ice %, Height, Projection, Scroll/Rotate) and secondary options (Colors, Seed, Iterations, Generate & Download buttons).
-   ![Interactive Form Controls](screenshots/form-controls.png?raw=true "Interactive Form Controls")
-
-2. **Square Projection**: Classic equirectangular world map view.
+1. **Square Projection**: Classic equirectangular world map view.
    ![Square Projection](screenshots/square-projection.png?raw=true "Square Projection")
 
-3. **Mercator Projection**: Mercator latitude-distorted world map view.
+2. **Mercator Projection**: Mercator latitude-distorted world map view.
    ![Mercator Projection](screenshots/mercator-projection.png?raw=true "Mercator Projection")
 
-4. **Spherical Projection**: Globe view centered on the equator.
+3. **Spherical Projection**: Globe view centered on the equator.
    ![Spherical Projection](screenshots/spherical-projection.png?raw=true "Spherical Projection")
 
-5. **Orthographic NP Projection**: North Pole centered globe view.
-   ![Orthographic NP Projection](screenshots/orthographic-np.png?raw=true "Orthographic NP Projection")
+4. **Orthographic NP Projection**: North Pole centered globe view.
+   ![Orthographic NP Projection](screenshots/orthographic-np-projection.png?raw=true "Orthographic NP Projection")
 
-6. **Orthographic SP Projection**: South Pole centered globe view.
-   ![Orthographic SP Projection](screenshots/orthographic-sp.png?raw=true "Orthographic SP Projection")
+5. **Green/Blue Color Scheme**: Alternative color palette highlighting green terrain and blue oceans.
+   ![Green/Blue Color Scheme](screenshots/green-blue.png?raw=true "Green/Blue Color Scheme")
+
+6. **Two Color Mode**: Classic two-color mode rendering using original C source color indices.
+   ![Two Color Mode](screenshots/two-color.png?raw=true "Two Color Mode")
 
 ## Changelog
 
