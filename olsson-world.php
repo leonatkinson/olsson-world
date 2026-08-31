@@ -118,7 +118,7 @@ function olsson_world_render_block( $attributes ) {
                 <label><?php esc_html_e( 'Colors:', 'olsson-world' ); ?></label>
                 <select name="colorScheme" class="ow-colors">
                     <?php
-                    $schemes = array( 'Olsson Original', 'Green/Blue', 'Two Colors', 'Terrain & Snow' );
+                    $schemes = array( 'Olsson Original', 'Green/Blue', 'Two Colors', 'Terrain & Snow', 'Twelve Colors' );
                     foreach ( $schemes as $sch ) {
                         $selected = ( $color_scheme === $sch ) ? 'selected' : '';
                         echo '<option value="' . esc_attr( $sch ) . '" ' . $selected . '>' . esc_html( $sch ) . '</option>';

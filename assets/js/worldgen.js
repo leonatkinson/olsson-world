@@ -97,6 +97,25 @@ function initOlssonWorld(container) {
     colorset['terrainSnow'] = terrainSnow;
     colorset['Two Colors'] = colorset[olssonOriginal];
 
+    const twelveColors = [];
+    const oceanSub = [terrainSnow[1], terrainSnow[5], terrainSnow[10], terrainSnow[15]];
+    const landSub = [terrainSnow[16], terrainSnow[19], terrainSnow[22], terrainSnow[25]];
+    const snowSub = [terrainSnow[26], terrainSnow[33], terrainSnow[40], terrainSnow[48]];
+
+    for (let i = 0; i < 49; i++) {
+        if (i === 0) {
+            twelveColors.push([0, 0, 0]);
+        } else if (i < 16) {
+            twelveColors.push(oceanSub[(i - 1) % 4]);
+        } else if (i < 26) {
+            twelveColors.push(landSub[(i - 16) % 4]);
+        } else {
+            twelveColors.push(snowSub[(i - 26) % 4]);
+        }
+    }
+    colorset['Twelve Colors'] = twelveColors;
+    colorset['twelveColors'] = twelveColors;
+
     // Helper for true mathematical modulo in JS
     function mod(n, m) {
         return ((n % m) + m) % m;
