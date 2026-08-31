@@ -39,7 +39,7 @@ function olsson_world_init() {
             'mapHeight'     => array( 'type' => 'integer', 'default' => 900 ),
             'projection'    => array( 'type' => 'string', 'default' => 'Square' ),
             'scrollDegrees' => array( 'type' => 'integer', 'default' => 135 ),
-            'colorScheme'   => array( 'type' => 'string', 'default' => 'Olsson Original' ),
+            'colorScheme'   => array( 'type' => 'string', 'default' => 'Terrain & Snow' ),
             'seed'          => array( 'type' => 'integer', 'default' => 0 ),
             'iterations'    => array( 'type' => 'integer', 'default' => 500 ),
         ),
@@ -57,7 +57,7 @@ function olsson_world_render_block( $attributes ) {
     $map_height     = isset( $attributes['mapHeight'] ) ? intval( $attributes['mapHeight'] ) : 900;
     $projection     = isset( $attributes['projection'] ) ? sanitize_text_field( $attributes['projection'] ) : 'Square';
     $scroll_degrees = isset( $attributes['scrollDegrees'] ) ? intval( $attributes['scrollDegrees'] ) : 135;
-    $color_scheme   = isset( $attributes['colorScheme'] ) ? sanitize_text_field( $attributes['colorScheme'] ) : 'Olsson Original';
+    $color_scheme   = isset( $attributes['colorScheme'] ) ? sanitize_text_field( $attributes['colorScheme'] ) : 'Terrain & Snow';
     $seed           = isset( $attributes['seed'] ) ? intval( $attributes['seed'] ) : time();
     $iterations     = isset( $attributes['iterations'] ) ? intval( $attributes['iterations'] ) : 500;
 
@@ -118,7 +118,7 @@ function olsson_world_render_block( $attributes ) {
                 <label><?php esc_html_e( 'Colors:', 'olsson-world' ); ?></label>
                 <select name="colorScheme" class="ow-colors">
                     <?php
-                    $schemes = array( 'Olsson Original', 'Green/Blue', 'Two Colors', 'Terrain & Snow', 'Twelve Colors' );
+                    $schemes = array( 'Terrain & Snow', 'Green/Blue', 'Olsson Original', 'Twelve Colors', 'Two Colors' );
                     foreach ( $schemes as $sch ) {
                         $selected = ( $color_scheme === $sch ) ? 'selected' : '';
                         echo '<option value="' . esc_attr( $sch ) . '" ' . $selected . '>' . esc_html( $sch ) . '</option>';

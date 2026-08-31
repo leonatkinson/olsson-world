@@ -24,7 +24,7 @@ As noted in John Olsson's original comments, the generator creates random great 
 - **Height of Image**: Height of generated map in pixels (default 900).
 - **Projection**: Map projection type, including Square, Mercator, Spherical, Orthographic NP (North Pole), and Orthographic SP (South Pole).
 - **Scroll / Rotate Degrees**: Dynamically labeled as **Scroll** for Square and Mercator projections, or **Rotate Degrees** for spherical/orthographic globe projections (default 135).
-- **Colors**: Color palette dropdown with three choices: **Olsson Original** (default elevation spectrum with ice caps), **Green/Blue** (alternative terrain palette), and **Two Colors** (classic C source two-color mode).
+- **Colors**: Color palette dropdown with choices: **Terrain & Snow** (default terrain & snow palette), **Green/Blue**, **Olsson Original**, **Twelve Colors**, and **Two Colors**.
 - **Random Seed**: Seed used to initialize the pseudo-random number generator (defaulting to seconds on the clock).
 - **Iterations**: Number of fractal fault-line iterations (default 500, automatically scaled based on map resolution for high-density landmasses).
 
