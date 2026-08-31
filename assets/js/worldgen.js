@@ -67,8 +67,8 @@ function initOlssonWorld(container) {
                 Math.floor(40 + t * 160),
                 Math.floor(120 + t * 135)
             ]);
-        } else if (i < 30) {
-            const t = (i - 16) / 13;
+        } else if (i < 26) {
+            const t = (i - 16) / 9;
             let r, g, b;
             if (t < 0.35) {
                 const subT = t / 0.35;
@@ -88,7 +88,7 @@ function initOlssonWorld(container) {
             }
             terrainSnow.push([r, g, b]);
         } else {
-            const t = (i - 30) / 18;
+            const t = (i - 26) / 22;
             const gray = Math.floor(180 + t * 75);
             terrainSnow.push([gray, gray, gray]);
         }
