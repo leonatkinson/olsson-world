@@ -28,47 +28,33 @@ function initOlssonWorld(container) {
     updateScrollLabel();
 
     // Color palettes from John Olsson's C code
-    const olssonRed = [
-        0,0,0,0,0,0,0,0,34,68,102,119,136,153,170,187,
-        0,34,34,119,187,255,238,221,204,187,170,153,
-        136,119,85,68,
-        255,250,245,240,235,230,225,220,215,210,205,200,
-        195,190,185,180,175
+    const olssonOriginal = 'olssonOriginal';
+    const greenBlue = 'greenBlue';
+    const colorset = {};
+    colorset[olssonOriginal] = [
+        [0,0,0], [0,0,68], [0,17,102], [0,51,136], [0,85,170], [0,119,187], [0,153,221], [0,204,255],
+        [34,221,255], [68,238,255], [102,255,255], [119,255,255], [136,255,255], [153,255,255], [170,255,255], [187,255,255],
+        [0,68,0], [34,102,0], [34,136,0], [119,170,0], [187,221,0], [255,187,34], [238,170,34], [221,136,34],
+        [204,136,34], [187,102,34], [170,85,34], [153,85,34], [136,68,34], [119,51,34], [85,51,17], [68,34,0],
+        [255,255,255], [250,250,250], [245,245,245], [240,240,240], [235,235,235], [230,230,230], [225,225,225], [220,220,220],
+        [215,215,215], [210,210,210], [205,205,205], [200,200,200], [195,195,195], [190,190,190], [185,185,185], [180,180,180],
+        [175,175,175]
     ];
-    const olssonGreen = [
-        0,0,17,51,85,119,153,204,221,238,255,255,255,
-        255,255,255,68,102,136,170,221,187,170,136,
-        136,102,85,85,68,51,51,34,
-        255,250,245,240,235,230,225,220,215,210,205,200,
-        195,190,185,180,175
-    ];
-    const olssonBlue = [
-        0,68,102,136,170,187,221,255,255,255,255,255,
-        255,255,255,255,0,0,0,0,0,34,34,34,34,34,34,
-        34,34,34,17,0,
-        255,250,245,240,235,230,225,220,215,210,205,200,
-        195,190,185,180,175
-    ];
-
-    // Green/Blue alternative palette
-    const gbRed = [];
-    const gbGreen = [];
-    const gbBlue = [];
-    for (let i = 0; i < 49; i++) {
-        if (i < 16) {
-            gbRed.push(0);
-            gbGreen.push(Math.floor(i * 12));
-            gbBlue.push(120 + Math.floor(i * 8));
-        } else if (i < 32) {
-            gbRed.push(34 + Math.floor((i - 16) * 10));
-            gbGreen.push(139 + Math.floor((i - 16) * 4));
-            gbBlue.push(34);
-        } else {
-            gbRed.push(240);
-            gbGreen.push(240);
-            gbBlue.push(255);
+    colorset[greenBlue] = (function() {
+        const arr = [];
+        for (let i = 0; i < 49; i++) {
+            if (i < 16) {
+                arr.push([0, Math.floor(i * 12), 120 + Math.floor(i * 8)]);
+            } else if (i < 32) {
+                arr.push([34 + Math.floor((i - 16) * 10), 139 + Math.floor((i - 16) * 4), 34]);
+            } else {
+                arr.push([240, 240, 255]);
+            }
         }
-    }
+        return arr;
+    })();
+    colorset['Olsson Original'] = colorset[olssonOriginal];
+    colorset['Green/Blue'] = colorset[greenBlue];
 
     // Helper for true mathematical modulo in JS
     function mod(n, m) {
@@ -85,9 +71,7 @@ function initOlssonWorld(container) {
         const seedInput = parseInt(form.querySelector('.ow-seed').value, 10) || Math.floor(Date.now() / 1000);
         const rawIterations = parseInt(form.querySelector('.ow-iterations').value, 10) || 500;
 
-        const Red = (colorScheme === 'Green/Blue') ? gbRed : olssonRed;
-        const Green = (colorScheme === 'Green/Blue') ? gbGreen : olssonGreen;
-        const Blue = (colorScheme === 'Green/Blue') ? gbBlue : olssonBlue;
+        const palette = colorset[colorScheme] || colorset[olssonOriginal];
 
         // Determine XRange and YRange based on projection
         let XRange, YRange;
@@ -348,12 +332,13 @@ function initOlssonWorld(container) {
                 for (let y = 0; y < YRange; y++) {
                     let colorIdx = finalMap[rowOffset + y];
                     if (colorIdx < 0) colorIdx = 0;
-                    if (colorIdx >= Red.length) colorIdx = Red.length - 1;
+                    if (colorIdx >= palette.length) colorIdx = palette.length - 1;
 
                     const destIdx = (y * XRange + x) * 4;
-                    data[destIdx]     = Red[colorIdx];
-                    data[destIdx + 1] = Green[colorIdx];
-                    data[destIdx + 2] = Blue[colorIdx];
+                    const rgb = palette[colorIdx];
+                    data[destIdx]     = rgb[0];
+                    data[destIdx + 1] = rgb[1];
+                    data[destIdx + 2] = rgb[2];
                     data[destIdx + 3] = 255;
                 }
             }
@@ -363,12 +348,13 @@ function initOlssonWorld(container) {
                 for (let y = 0; y < YRange; y++) {
                     let colorIdx = finalMap[rowOffset + y];
                     if (colorIdx < 0) colorIdx = 0;
-                    if (colorIdx >= Red.length) colorIdx = Red.length - 1;
+                    if (colorIdx >= palette.length) colorIdx = palette.length - 1;
 
                     const destIdx = (y * XRange + x) * 4;
-                    data[destIdx]     = Red[colorIdx];
-                    data[destIdx + 1] = Green[colorIdx];
-                    data[destIdx + 2] = Blue[colorIdx];
+                    const rgb = palette[colorIdx];
+                    data[destIdx]     = rgb[0];
+                    data[destIdx + 1] = rgb[1];
+                    data[destIdx + 2] = rgb[2];
                     data[destIdx + 3] = 255;
                 }
             }
@@ -390,11 +376,12 @@ function initOlssonWorld(container) {
 
                         let colorIdx = finalMap[mappedX * YRange + mappedY];
                         if (colorIdx < 0) colorIdx = 0;
-                        if (colorIdx >= Red.length) colorIdx = Red.length - 1;
+                        if (colorIdx >= palette.length) colorIdx = palette.length - 1;
 
-                        data[destIdx]     = Red[colorIdx];
-                        data[destIdx + 1] = Green[colorIdx];
-                        data[destIdx + 2] = Blue[colorIdx];
+                        const rgb = palette[colorIdx];
+                        data[destIdx]     = rgb[0];
+                        data[destIdx + 1] = rgb[1];
+                        data[destIdx + 2] = rgb[2];
                         data[destIdx + 3] = 255;
                     } else {
                         data[destIdx + 3] = 0; // transparent outside globe
@@ -418,11 +405,12 @@ function initOlssonWorld(container) {
 
                         let colorIdx = finalMap[mappedX * YRange + mappedY];
                         if (colorIdx < 0) colorIdx = 0;
-                        if (colorIdx >= Red.length) colorIdx = Red.length - 1;
+                        if (colorIdx >= palette.length) colorIdx = palette.length - 1;
 
-                        data[destIdx]     = Red[colorIdx];
-                        data[destIdx + 1] = Green[colorIdx];
-                        data[destIdx + 2] = Blue[colorIdx];
+                        const rgb = palette[colorIdx];
+                        data[destIdx]     = rgb[0];
+                        data[destIdx + 1] = rgb[1];
+                        data[destIdx + 2] = rgb[2];
                         data[destIdx + 3] = 255;
                     } else {
                         data[destIdx + 3] = 0;
@@ -446,11 +434,12 @@ function initOlssonWorld(container) {
 
                         let colorIdx = finalMap[mappedX * YRange + mappedY];
                         if (colorIdx < 0) colorIdx = 0;
-                        if (colorIdx >= Red.length) colorIdx = Red.length - 1;
+                        if (colorIdx >= palette.length) colorIdx = palette.length - 1;
 
-                        data[destIdx]     = Red[colorIdx];
-                        data[destIdx + 1] = Green[colorIdx];
-                        data[destIdx + 2] = Blue[colorIdx];
+                        const rgb = palette[colorIdx];
+                        data[destIdx]     = rgb[0];
+                        data[destIdx + 1] = rgb[1];
+                        data[destIdx + 2] = rgb[2];
                         data[destIdx + 3] = 255;
                     } else {
                         data[destIdx + 3] = 0;
