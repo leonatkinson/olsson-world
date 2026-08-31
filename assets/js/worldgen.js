@@ -56,6 +56,47 @@ function initOlssonWorld(container) {
     colorset['Olsson Original'] = colorset[olssonOriginal];
     colorset['Green/Blue'] = colorset[greenBlue];
 
+    const terrainSnow = [];
+    for (let i = 0; i < 49; i++) {
+        if (i === 0) {
+            terrainSnow.push([0, 0, 0]);
+        } else if (i < 16) {
+            const t = (i - 1) / 14;
+            terrainSnow.push([
+                Math.floor(t * 80),
+                Math.floor(40 + t * 160),
+                Math.floor(120 + t * 135)
+            ]);
+        } else if (i < 30) {
+            const t = (i - 16) / 13;
+            let r, g, b;
+            if (t < 0.35) {
+                const subT = t / 0.35;
+                r = Math.floor(34 + subT * 126);
+                g = Math.floor(139 + subT * 36);
+                b = Math.floor(34 + subT * 11);
+            } else if (t < 0.65) {
+                const subT = (t - 0.35) / 0.3;
+                r = Math.floor(160 - subT * 60);
+                g = Math.floor(175 - subT * 95);
+                b = Math.floor(45 - subT * 15);
+            } else {
+                const subT = (t - 0.65) / 0.35;
+                r = Math.floor(100 - subT * 57);
+                g = Math.floor(80 - subT * 57);
+                b = Math.floor(30 - subT * 30);
+            }
+            terrainSnow.push([r, g, b]);
+        } else {
+            const t = (i - 30) / 18;
+            const gray = Math.floor(180 + t * 75);
+            terrainSnow.push([gray, gray, gray]);
+        }
+    }
+    colorset['Terrain & Snow'] = terrainSnow;
+    colorset['terrainSnow'] = terrainSnow;
+    colorset['Two Colors'] = colorset[olssonOriginal];
+
     // Helper for true mathematical modulo in JS
     function mod(n, m) {
         return ((n % m) + m) % m;
