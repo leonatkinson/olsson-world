@@ -98,23 +98,50 @@ function initOlssonWorld(container) {
     colorset['Two Colors'] = colorset[olssonOriginal];
 
     const twelveColors = [];
-    const oceanSub = [terrainSnow[1], terrainSnow[5], terrainSnow[10], terrainSnow[15]];
-    const landSub = [terrainSnow[16], terrainSnow[19], terrainSnow[22], terrainSnow[25]];
-    const snowSub = [terrainSnow[26], terrainSnow[33], terrainSnow[40], terrainSnow[48]];
+    twelveColors.push([0, 0, 0]);
 
-    for (let i = 0; i < 49; i++) {
-        if (i === 0) {
-            twelveColors.push([0, 0, 0]);
-        } else if (i < 16) {
-            twelveColors.push(oceanSub[(i - 1) % 4]);
-        } else if (i < 26) {
-            twelveColors.push(landSub[(i - 16) % 4]);
-        } else {
-            twelveColors.push(snowSub[(i - 26) % 4]);
+    const oceanStops = [
+        [10, 20, 60],
+        [20, 40, 100],
+        [40, 90, 160],
+        [100, 170, 230]
+    ];
+    const landStops = [
+        [60, 160, 60],
+        [90, 140, 50],
+        [200, 160, 40],
+        [130, 85, 30],
+        [43, 23, 0]
+    ];
+    const snowStops = [
+        [160, 160, 160],
+        [210, 210, 210],
+        [255, 255, 255]
+    ];
+
+    function interpolateColors(stops, count) {
+        const result = [];
+        for (let i = 0; i < count; i++) {
+            const pos = (i / (count - 1)) * (stops.length - 1);
+            const idx1 = Math.floor(pos);
+            const idx2 = Math.min(stops.length - 1, Math.ceil(pos));
+            const frac = pos - idx1;
+            const c1 = stops[idx1];
+            const c2 = stops[idx2];
+            result.push([
+                Math.round(c1[0] + (c2[0] - c1[0]) * frac),
+                Math.round(c1[1] + (c2[1] - c1[1]) * frac),
+                Math.round(c1[2] + (c2[2] - c1[2]) * frac)
+            ]);
         }
+        return result;
     }
+
+    twelveColors.push(...interpolateColors(oceanStops, 15));
+    twelveColors.push(...interpolateColors(landStops, 10));
+    twelveColors.push(...interpolateColors(snowStops, 23));
+
     colorset['Twelve Colors'] = twelveColors;
-    colorset['twelveColors'] = twelveColors;
 
     // Helper for true mathematical modulo in JS
     function mod(n, m) {
