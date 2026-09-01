@@ -130,7 +130,7 @@ function olsson_world_render_block( $attributes ) {
             </div>
             <div class="olsson-world-field">
                 <label><?php esc_html_e( 'Random Seed:', 'olsson-world' ); ?></label>
-                <input type="number" name="seed" value="<?php echo esc_attr( $seed ); ?>" class="ow-seed" />
+                <input type="number" name="seed" value="<?php echo esc_attr( $seed ? $seed : '' ); ?>" class="ow-seed" />
             </div>
             <div class="olsson-world-field">
                 <label><?php esc_html_e( 'Iterations:', 'olsson-world' ); ?></label>
@@ -142,6 +142,7 @@ function olsson_world_render_block( $attributes ) {
             </div>
             <div class="olsson-world-actions">
                 <button type="button" class="button button-primary wp-element-button ow-generate-btn"><?php esc_html_e( 'Generate Map', 'olsson-world' ); ?></button>
+                <button type="button" class="button button-secondary wp-element-button ow-save-seed-btn"><?php esc_html_e( 'Save Seed', 'olsson-world' ); ?></button>
                 <button type="button" class="button button-secondary wp-element-button ow-download-btn" style="display:none;"><?php esc_html_e( 'Download Map (PNG)', 'olsson-world' ); ?></button>
             </div>
         </form>

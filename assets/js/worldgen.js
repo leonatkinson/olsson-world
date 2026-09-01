@@ -10,9 +10,12 @@ function initOlssonWorld(container) {
     const canvas = container.querySelector('.ow-map-canvas');
     const ctx = canvas.getContext('2d');
     const generateBtn = container.querySelector('.ow-generate-btn');
+    const saveSeedBtn = container.querySelector('.ow-save-seed-btn');
     const downloadBtn = container.querySelector('.ow-download-btn');
     const projectionSelect = form.querySelector('.ow-projection');
     const scrollLabel = form.querySelector('.ow-scroll-label');
+
+    let currentSeed = 0;
 
     // Dynamic scroll / rotate label update
     function updateScrollLabel() {
@@ -155,7 +158,9 @@ function initOlssonWorld(container) {
         const projection = projectionSelect.value;
         const scrollDegrees = parseInt(form.querySelector('.ow-scroll').value, 10) || 0;
         const colorScheme = form.querySelector('.ow-colors').value;
-        const seedInput = parseInt(form.querySelector('.ow-seed').value, 10) || Math.floor(Date.now() / 1000);
+        const seedVal = form.querySelector('.ow-seed').value.trim();
+        const seedInput = (seedVal !== '' && !isNaN(seedVal)) ? parseInt(seedVal, 10) : Math.floor(Math.random() * 2147483647);
+        currentSeed = seedInput;
         const rawIterations = parseInt(form.querySelector('.ow-iterations').value, 10) || 500;
         const smoothingRange = parseInt(form.querySelector('.ow-smoothing').value, 10) || 0;
 
@@ -582,6 +587,12 @@ function initOlssonWorld(container) {
     }
 
     generateBtn.addEventListener('click', generateMap);
+
+    if (saveSeedBtn) {
+        saveSeedBtn.addEventListener('click', function() {
+            form.querySelector('.ow-seed').value = currentSeed;
+        });
+    }
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function() {
