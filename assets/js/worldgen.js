@@ -626,6 +626,30 @@ function initOlssonWorld(container) {
         });
     }
 
+    const helpBtn = container.querySelector('.ow-help-btn');
+    const helpModal = container.querySelector('.ow-help-modal');
+    const helpClose = container.querySelector('.ow-help-close');
+    const helpCloseBtn = container.querySelector('.ow-help-close-btn');
+
+    function openHelpModal() {
+        if (helpModal) helpModal.style.display = 'flex';
+    }
+
+    function closeHelpModal() {
+        if (helpModal) helpModal.style.display = 'none';
+    }
+
+    if (helpBtn) helpBtn.addEventListener('click', openHelpModal);
+    if (helpClose) helpClose.addEventListener('click', closeHelpModal);
+    if (helpCloseBtn) helpCloseBtn.addEventListener('click', closeHelpModal);
+    if (helpModal) {
+        helpModal.addEventListener('click', function(e) {
+            if (e.target === helpModal) {
+                closeHelpModal();
+            }
+        });
+    }
+
     // Auto-generate on load
     generateMap();
 }

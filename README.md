@@ -64,4 +64,6 @@ The user fills out the form, clicks **Generate Map**, and the map is drawn insta
 
 ### Unreleased
 * Add two new color schemes: Terrain & Snow and Twelve Colors
+* Add toggle to lock the seed
+* Add help modal
 

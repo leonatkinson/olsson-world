@@ -149,13 +149,39 @@ function olsson_world_render_block( $attributes ) {
                 <label><?php esc_html_e( 'Smoothing Range:', 'olsson-world' ); ?></label>
                 <input type="number" name="smoothingRange" min="0" max="100" value="<?php echo esc_attr( $smoothing_range ); ?>" class="ow-smoothing" />
             </div>
-            <div class="olsson-world-actions">
+            <div class="olsson-world-actions" style="display: flex; align-items: center;">
                 <button type="button" class="button button-primary wp-element-button ow-generate-btn"><?php esc_html_e( 'Generate Map', 'olsson-world' ); ?></button>
                 <button type="button" class="button button-secondary wp-element-button ow-download-btn" style="display:none;"><?php esc_html_e( 'Download Map (PNG)', 'olsson-world' ); ?></button>
+                <button type="button" class="button button-secondary wp-element-button ow-help-btn" style="margin-left: auto;"><?php esc_html_e( 'Help', 'olsson-world' ); ?></button>
             </div>
         </form>
         <div class="olsson-world-map-wrapper">
             <canvas class="ow-map-canvas"></canvas>
+        </div>
+        <div class="ow-help-modal" style="display: none;">
+            <div class="ow-help-modal-content">
+                <span class="ow-help-close">&times;</span>
+                <h3><?php esc_html_e( 'Olsson World Generator - Help & Guide', 'olsson-world' ); ?></h3>
+                <p><?php esc_html_e( 'This tool generates random fractal world maps using John Olsson\'s great-circle fault line algorithm (1999). Below is a guide to every field and feature:', 'olsson-world' ); ?></p>
+                <ul>
+                    <li><strong><?php esc_html_e( 'Percent Water', 'olsson-world' ); ?> (0–100):</strong> <?php esc_html_e( 'Controls the ratio of ocean to land. Higher values flood more terrain into oceans; lower values produce larger continents.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Percent Ice', 'olsson-world' ); ?> (0–100):</strong> <?php esc_html_e( 'Determines the extent of polar ice caps generated via floodfill from the poles.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Height of Image', 'olsson-world' ); ?> (100–2048):</strong> <?php esc_html_e( 'Sets the canvas height in pixels. Higher resolutions produce more detailed maps and automatically scale iteration density.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Projection', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'Choose between Square (equirectangular), Mercator, Spherical (3D globe), Orthographic NP (North Pole centered), or Orthographic SP (South Pole centered).', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Scroll / Rotate Degrees', 'olsson-world' ); ?> (-360 to 360):</strong> <?php esc_html_e( 'Shifts longitude horizontally for flat maps or rotates the 3D globe view.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Colors', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'Selects the rendering palette: Terrain & Snow (default, with blue oceans, green-to-brown rocks, and snow peaks), Green/Blue, Olsson Original, Twelve Colors, or Two Colors.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Random Seed', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'PRNG seed value. Entering a number reproduces an exact map; leaving it blank generates a new random map on each click.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Lock Seed', 'olsson-world' ); ?> (Off / On):</strong> <?php esc_html_e( 'When set to On, captures and displays the active random seed in the seed field so you can keep or share it.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Iterations', 'olsson-world' ); ?> (1–5000):</strong> <?php esc_html_e( 'The number of tectonic fault-line passes that uplift and depress continental plates.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Smoothing Range', 'olsson-world' ); ?> (0–100):</strong> <?php esc_html_e( 'Applies separable neighbor elevation averaging to smooth jagged fault lines.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Generate Map', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'Runs the simulation and renders the map onto the canvas.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Download Map (PNG)', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'Appears after generation; saves the rendered map canvas as a PNG image file.', 'olsson-world' ); ?></li>
+                    <li><strong><?php esc_html_e( 'Help', 'olsson-world' ); ?>:</strong> <?php esc_html_e( 'Opens this modal guide.', 'olsson-world' ); ?></li>
+                </ul>
+                <div class="ow-help-modal-actions">
+                    <button type="button" class="button button-primary wp-element-button ow-help-close-btn"><?php esc_html_e( 'Close', 'olsson-world' ); ?></button>
+                </div>
+            </div>
         </div>
     </div>
     <script>

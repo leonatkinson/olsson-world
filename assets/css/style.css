@@ -56,3 +56,70 @@
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
+
+.ow-help-modal {
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ow-help-modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 25px 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1d2327;
+}
+
+.ow-help-close {
+    color: #aaa;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ow-help-close:hover,
+.ow-help-close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.ow-help-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.ow-help-modal-content ul {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.ow-help-modal-content li {
+    margin-bottom: 8px;
+}
+
+.ow-help-modal-actions {
+    text-align: right;
+    margin-top: 20px;
+}
