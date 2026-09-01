@@ -62,7 +62,7 @@ The user fills out the form, clicks **Generate Map**, and the map is drawn insta
 ### 1.0.0
 * Initial Release with vanilla JS browser rendering, full projection support, color schemes, and Gutenberg block integration.
 
-### Unreleased
+### 1.1.0
 * Add two new color schemes: Terrain & Snow and Twelve Colors
 * Add toggle to lock the seed
 * Add help modal

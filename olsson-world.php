@@ -3,7 +3,7 @@
  * Plugin Name: Olsson World
  * Plugin URI: https://github.com/leonatkinson/olsson-world
  * Description: Add block to display a tool for generating random fractal world maps.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Leon Atkinson
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
