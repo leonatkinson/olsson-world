@@ -42,6 +42,7 @@ function olsson_world_init() {
             'colorScheme'   => array( 'type' => 'string', 'default' => 'Terrain & Snow' ),
             'seed'          => array( 'type' => 'integer', 'default' => 0 ),
             'iterations'    => array( 'type' => 'integer', 'default' => 500 ),
+            'smoothingRange'=> array( 'type' => 'integer', 'default' => 0 ),
         ),
         'render_callback' => 'olsson_world_render_block',
     ) );
@@ -60,6 +61,7 @@ function olsson_world_render_block( $attributes ) {
     $color_scheme   = isset( $attributes['colorScheme'] ) ? sanitize_text_field( $attributes['colorScheme'] ) : 'Terrain & Snow';
     $seed           = isset( $attributes['seed'] ) ? intval( $attributes['seed'] ) : time();
     $iterations     = isset( $attributes['iterations'] ) ? intval( $attributes['iterations'] ) : 500;
+    $smoothing_range = isset( $attributes['smoothingRange'] ) ? intval( $attributes['smoothingRange'] ) : 0;
 
     // Determine initial scroll/rotate label
     $scroll_label   = in_array( $projection, array( 'Square', 'Mercator' ), true ) ? __( 'Scroll:', 'olsson-world' ) : __( 'Rotate Degrees:', 'olsson-world' );
@@ -133,6 +135,10 @@ function olsson_world_render_block( $attributes ) {
             <div class="olsson-world-field">
                 <label><?php esc_html_e( 'Iterations:', 'olsson-world' ); ?></label>
                 <input type="number" name="iterations" min="1" max="5000" value="<?php echo esc_attr( $iterations ); ?>" class="ow-iterations" />
+            </div>
+            <div class="olsson-world-field">
+                <label><?php esc_html_e( 'Smoothing Range:', 'olsson-world' ); ?></label>
+                <input type="number" name="smoothingRange" min="0" max="100" value="<?php echo esc_attr( $smoothing_range ); ?>" class="ow-smoothing" />
             </div>
             <div class="olsson-world-actions">
                 <button type="button" class="button button-primary wp-element-button ow-generate-btn"><?php esc_html_e( 'Generate Map', 'olsson-world' ); ?></button>

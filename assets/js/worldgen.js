@@ -157,6 +157,7 @@ function initOlssonWorld(container) {
         const colorScheme = form.querySelector('.ow-colors').value;
         const seedInput = parseInt(form.querySelector('.ow-seed').value, 10) || Math.floor(Date.now() / 1000);
         const rawIterations = parseInt(form.querySelector('.ow-iterations').value, 10) || 500;
+        const smoothingRange = parseInt(form.querySelector('.ow-smoothing').value, 10) || 0;
 
         const palette = colorset[colorScheme] || colorset[olssonOriginal];
 
@@ -263,6 +264,43 @@ function initOlssonWorld(container) {
                 WorldMapArray[row + i] = Color;
             }
             row += YRange;
+        }
+
+        // Apply smoothing if smoothingRange > 0
+        if (smoothingRange > 0) {
+            const R = Math.min(100, Math.max(0, smoothingRange));
+            const temp = new Float64Array(XRange * YRange);
+            const size = 2 * R + 1;
+
+            for (let y = 0; y < YRange; y++) {
+                let sum = 0;
+                for (let dx = -R; dx <= R; dx++) {
+                    const nx = mod(dx, XRange);
+                    sum += WorldMapArray[nx * YRange + y];
+                }
+                temp[y] = sum / size;
+
+                for (let x = 1; x < XRange; x++) {
+                    const outX = mod(x - R - 1, XRange);
+                    const inX = mod(x + R, XRange);
+                    sum += WorldMapArray[inX * YRange + y] - WorldMapArray[outX * YRange + y];
+                    temp[x * YRange + y] = sum / size;
+                }
+            }
+
+            for (let x = 0; x < XRange; x++) {
+                const rowOffset = x * YRange;
+                for (let y = 0; y < YRange; y++) {
+                    let sum = 0;
+                    let count = 0;
+                    for (let dy = -R; dy <= R; dy++) {
+                        const ny = Math.max(0, Math.min(YRange - 1, y + dy));
+                        sum += temp[x * YRange + ny];
+                        count++;
+                    }
+                    WorldMapArray[rowOffset + y] = Math.round(sum / count);
+                }
+            }
         }
 
         let MaxZ = 1, MinZ = -1;
