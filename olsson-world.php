@@ -43,6 +43,7 @@ function olsson_world_init() {
             'seed'          => array( 'type' => 'integer', 'default' => 0 ),
             'iterations'    => array( 'type' => 'integer', 'default' => 500 ),
             'smoothingRange'=> array( 'type' => 'integer', 'default' => 0 ),
+            'lockSeed'      => array( 'type' => 'string', 'default' => 'off' ),
         ),
         'render_callback' => 'olsson_world_render_block',
     ) );
@@ -62,6 +63,7 @@ function olsson_world_render_block( $attributes ) {
     $seed           = isset( $attributes['seed'] ) ? intval( $attributes['seed'] ) : time();
     $iterations     = isset( $attributes['iterations'] ) ? intval( $attributes['iterations'] ) : 500;
     $smoothing_range = isset( $attributes['smoothingRange'] ) ? intval( $attributes['smoothingRange'] ) : 0;
+    $lock_seed      = isset( $attributes['lockSeed'] ) ? sanitize_text_field( $attributes['lockSeed'] ) : 'off';
 
     // Determine initial scroll/rotate label
     $scroll_label   = in_array( $projection, array( 'Square', 'Mercator' ), true ) ? __( 'Scroll:', 'olsson-world' ) : __( 'Rotate Degrees:', 'olsson-world' );
@@ -133,6 +135,13 @@ function olsson_world_render_block( $attributes ) {
                 <input type="number" name="seed" value="<?php echo esc_attr( $seed ? $seed : '' ); ?>" class="ow-seed" />
             </div>
             <div class="olsson-world-field">
+                <label><?php esc_html_e( 'Lock Seed:', 'olsson-world' ); ?></label>
+                <select name="lockSeed" class="ow-lock-seed">
+                    <option value="off" <?php selected( $lock_seed, 'off' ); ?>><?php esc_html_e( 'Off', 'olsson-world' ); ?></option>
+                    <option value="on" <?php selected( $lock_seed, 'on' ); ?>><?php esc_html_e( 'On', 'olsson-world' ); ?></option>
+                </select>
+            </div>
+            <div class="olsson-world-field">
                 <label><?php esc_html_e( 'Iterations:', 'olsson-world' ); ?></label>
                 <input type="number" name="iterations" min="1" max="5000" value="<?php echo esc_attr( $iterations ); ?>" class="ow-iterations" />
             </div>
@@ -142,7 +151,6 @@ function olsson_world_render_block( $attributes ) {
             </div>
             <div class="olsson-world-actions">
                 <button type="button" class="button button-primary wp-element-button ow-generate-btn"><?php esc_html_e( 'Generate Map', 'olsson-world' ); ?></button>
-                <button type="button" class="button button-secondary wp-element-button ow-save-seed-btn"><?php esc_html_e( 'Save Seed', 'olsson-world' ); ?></button>
                 <button type="button" class="button button-secondary wp-element-button ow-download-btn" style="display:none;"><?php esc_html_e( 'Download Map (PNG)', 'olsson-world' ); ?></button>
             </div>
         </form>

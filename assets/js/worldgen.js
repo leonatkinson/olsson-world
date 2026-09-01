@@ -10,12 +10,13 @@ function initOlssonWorld(container) {
     const canvas = container.querySelector('.ow-map-canvas');
     const ctx = canvas.getContext('2d');
     const generateBtn = container.querySelector('.ow-generate-btn');
-    const saveSeedBtn = container.querySelector('.ow-save-seed-btn');
     const downloadBtn = container.querySelector('.ow-download-btn');
     const projectionSelect = form.querySelector('.ow-projection');
     const scrollLabel = form.querySelector('.ow-scroll-label');
+    const seedInput = form.querySelector('.ow-seed');
+    const lockSeedSelect = form.querySelector('.ow-lock-seed');
 
-    let currentSeed = 0;
+    let currentSeed = seedInput && seedInput.value ? parseInt(seedInput.value, 10) : 0;
 
     // Dynamic scroll / rotate label update
     function updateScrollLabel() {
@@ -158,9 +159,18 @@ function initOlssonWorld(container) {
         const projection = projectionSelect.value;
         const scrollDegrees = parseInt(form.querySelector('.ow-scroll').value, 10) || 0;
         const colorScheme = form.querySelector('.ow-colors').value;
-        const seedVal = form.querySelector('.ow-seed').value.trim();
-        const seedInput = (seedVal !== '' && !isNaN(seedVal)) ? parseInt(seedVal, 10) : Math.floor(Math.random() * 2147483647);
-        currentSeed = seedInput;
+        const seedVal = seedInput ? seedInput.value.trim() : '';
+        let seedNum;
+        if (seedVal !== '' && !isNaN(seedVal)) {
+            seedNum = parseInt(seedVal, 10);
+            currentSeed = seedNum;
+        } else {
+            seedNum = Math.floor(Math.random() * 2147483647);
+            currentSeed = seedNum;
+            if (lockSeedSelect && lockSeedSelect.value === 'on') {
+                seedInput.value = currentSeed;
+            }
+        }
         const rawIterations = parseInt(form.querySelector('.ow-iterations').value, 10) || 500;
         const smoothingRange = parseInt(form.querySelector('.ow-smoothing').value, 10) || 0;
 
@@ -180,7 +190,7 @@ function initOlssonWorld(container) {
         }
 
         // Seeded PRNG (Mulberry32)
-        let s = seedInput;
+        let s = seedNum;
         function random() {
             s += 0x6D2B79F5;
             let t = Math.imul(s ^ (s >>> 15), 1 | s);
@@ -588,9 +598,22 @@ function initOlssonWorld(container) {
 
     generateBtn.addEventListener('click', generateMap);
 
-    if (saveSeedBtn) {
-        saveSeedBtn.addEventListener('click', function() {
-            form.querySelector('.ow-seed').value = currentSeed;
+    if (lockSeedSelect) {
+        lockSeedSelect.addEventListener('change', function() {
+            if (lockSeedSelect.value === 'on') {
+                seedInput.value = currentSeed;
+            } else {
+                seedInput.value = '';
+            }
+        });
+    }
+
+    if (seedInput) {
+        seedInput.addEventListener('input', function() {
+            const val = parseInt(seedInput.value, 10);
+            if (!isNaN(val)) {
+                currentSeed = val;
+            }
         });
     }
 
